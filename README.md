@@ -1,58 +1,214 @@
-# ORVEXA AI — Enhanced Smart Company Assistant
+# Orvexa AI – Intelligent Enterprise Workspace
 
-An enhanced version of the Smart Company Assistant with a LangGraph supervisor, specialist workflows, RAG document Q&A, CSV analysis, SQLite support tickets, and a Streamlit UI.
+**One platform. Multiple agents. Smarter operations.**
 
-## Features
-- Professional dark Streamlit SaaS dashboard with Dashboard, AI Assistant, Knowledge Hub, Data Analytics, and Ticket Management pages.
-- Supervisor routing: knowledge/RAG, support, data analyst.
-- Groq chat model + HuggingFace sentence-transformer embeddings.
-- Upload PDF, TXT and Markdown documents and index them into FAISS.
-- Answers include retrieved source filenames and page metadata where available.
-- CSV upload with safe, predefined Pandas analysis operations (no generated Python execution).
-- Create and persist support tickets in SQLite.
-- Per-session conversation history in Streamlit.
+Orvexa AI is an AI-powered enterprise assistant designed to simplify everyday business operations through intelligent agents, Retrieval-Augmented Generation (RAG), document understanding, data analytics, and automated support ticket management.
 
-## Windows setup (PowerShell or CMD)
+Built using **Python, LangChain, LangGraph, Groq, FAISS, and Streamlit**, Orvexa AI combines multiple specialized workflows into one unified workspace.
+
+## ✨ Key Features
+
+### 🤖 Multi-Agent AI Assistant
+- Supervisor-based workflow using LangGraph.
+- Routes user queries to specialized agents.
+- Supports knowledge retrieval, customer support, and data analysis.
+- Maintains conversation history within a session.
+
+### 📚 Intelligent Knowledge Hub (RAG)
+- Upload PDF, TXT, and Markdown documents.
+- Split documents into searchable chunks.
+- Generate embeddings using HuggingFace sentence transformers.
+- Store and retrieve relevant information using FAISS.
+- Generate context-aware answers with source references.
+
+### 📊 AI-Powered Data Analytics
+- Upload CSV datasets.
+- Perform predefined data analysis operations using Pandas.
+- Generate summary statistics and insights.
+- Ask natural-language questions about uploaded data.
+
+### 🎫 Smart Ticket Management
+- Create support tickets through natural-language requests.
+- Store tickets persistently using SQLite.
+- Track and manage support requests.
+
+### 📈 Enterprise Dashboard
+- Centralized workspace for application modules.
+- Dashboard overview of available operations.
+- Professional Streamlit interface.
+
+## 🏗️ System Architecture
+
+```text
+                    USER
+                      |
+                      v
+               STREAMLIT FRONTEND
+                      |
+                      v
+             LANGGRAPH SUPERVISOR
+                      |
+          +-----------+-----------+
+          |           |           |
+          v           v           v
+      KNOWLEDGE    SUPPORT     ANALYTICS
+       AGENT        AGENT        AGENT
+          |           |           |
+          v           v           v
+        FAISS       SQLITE      PANDAS
+       VECTOR DB    DATABASE    DATAFRAME
+          |           |           |
+          +-----------+-----------+
+                      |
+                      v
+                  GROQ LLM
+                      |
+                      v
+                AI RESPONSE
+```
+
+## 🛠️ Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Programming Language | Python |
+| LLM Provider | Groq |
+| LLM Framework | LangChain |
+| Agent Workflow | LangGraph |
+| Frontend | Streamlit |
+| Embeddings | HuggingFace Sentence Transformers |
+| Vector Database | FAISS |
+| Database | SQLite |
+| Data Analysis | Pandas |
+| Document Processing | PyPDF |
+
+## 📁 Project Structure
+
+```text
+Orvexa-AI/
+│
+├── frontend/
+│   └── app.py
+│
+├── src/
+│   ├── config.py
+│   ├── schemas.py
+│   ├── prompts.py
+│   ├── ingest.py
+│   ├── rag_chain.py
+│   ├── database.py
+│   ├── tools.py
+│   ├── analytics.py
+│   ├── graph.py
+│   └── main.py
+│
+├── data/
+│   ├── hr_policy.md
+│   ├── product_faq.md
+│   └── sample_sales.csv
+│
+├── .env.example
+├── .gitignore
+├── requirements.txt
+└── README.md
+```
+
+## ⚙️ Installation and Setup
+
+### 1. Clone the repository
+
 ```bash
-cd Nexora-AI-Enhanced
+git clone https://github.com/YOUR_USERNAME/Orvexa-AI.git
+cd Orvexa-AI
+```
+
+### 2. Create a virtual environment
+
+```bash
 python -m venv myenv
+```
+
+### 3. Activate the environment
+
+**Windows CMD:**
+
+```bash
 myenv\Scripts\activate
+```
+
+**PowerShell:**
+
+```powershell
+.\myenv\Scripts\Activate.ps1
+```
+
+### 4. Install dependencies
+
+```bash
 python -m pip install --upgrade pip
-pip install -r requirements.txt
-copy .env.example .env
+python -m pip install -r requirements.txt
 ```
-Edit `.env` and add your Groq API key.
 
-## Run the application (Windows)
-Double-click `RUN_NEXORA_WINDOWS.bat`. On first run it creates a virtual environment,
-copies `.env.example` to `.env`, and opens it so you can add your Groq API key.
-Run the batch file again to install dependencies and launch the Streamlit dashboard.
+### 5. Configure environment variables
 
-Alternatively, activate the environment and run:
+Create a `.env` file in the root directory and add your Groq API key:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Get your API key from [Groq Console](https://console.groq.com/).
+
+**Important:** Never upload your `.env` file or expose your API key on GitHub.
+
+## ▶️ Run the Application
+
+From the project root directory:
+
 ```bash
-streamlit run frontend/app.py
-```
-Open the local URL shown in the terminal.
-
-## Build the document index
-You can upload files from the Streamlit sidebar. To index the sample `data/` documents:
-```bash
-python -m src.ingest
+python -m streamlit run frontend/app.py
 ```
 
-## CLI mode
-```bash
-python -m src.main
+Open the local URL displayed in your terminal, usually:
+
+```text
+http://localhost:8501
 ```
 
-## Example questions
-- "How many days of paid time off do I get?"
-- "What is the status of order ORD-1002?"
-- "Create a ticket: my CloudSync app keeps crashing."
-- Upload a CSV, then ask "Which column has the highest total?" or "Show summary statistics."
+## 💡 Example Use Cases
 
-## Important notes
-- The sample order records are demo data in `src/tools.py`, not a live order-management integration.
-- Tickets are stored locally in `nexora.db`.
-- FAISS uses local pickle-based persistence. Only load indexes you created yourself; do not load untrusted vectorstore files.
-- For a real company deployment, add authentication, authorization, audit logging, PII controls, rate limits, and connect tools to approved company APIs/databases.
+**Knowledge Assistant**
+- How many paid leave days are available?
+- What is the company's remote work policy?
+
+**Support Assistant**
+- Create a ticket for an email authentication issue.
+- My CloudSync application keeps crashing.
+
+**Data Analytics Assistant**
+- Which column has the highest total?
+- Show summary statistics for my uploaded CSV.
+
+## 🔐 Security Considerations
+
+- API keys are managed through environment variables.
+- CSV analysis uses predefined operations rather than executing generated Python code.
+- FAISS indexes use local persistence. Only load trusted indexes.
+- SQLite provides local ticket persistence.
+
+For production deployment, additional authentication, authorization, access controls, audit logging, and secure database integrations are recommended.
+
+## 🚀 Future Enhancements
+
+- Role-based access control.
+- More specialized AI agents.
+- Advanced analytics and visualization.
+- Integration with enterprise APIs.
+- Cloud deployment and scalable storage.
+- Persistent conversation memory.
+
+---
+
+**Orvexa AI**  
+*Intelligent Enterprise Workspace*  
+Built with Python and Generative AI.
